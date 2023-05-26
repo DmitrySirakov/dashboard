@@ -1,0 +1,10 @@
+usernames:
+  DSSirakov:
+    name: Dmitry Sirakov
+    password: $2b$12$UvA7c221bWNVfCbm5AJP..UWfESCkkGaEtgxS73htoxSWIjFSrW8e
+  MBBulakina:
+    name: Maria Bulakina
+    password: $2b$12$9SbywBykv2hXXw/KN/iAAO2dFut/W0KwfyS5WMGdTqXObVYSNG5Ru
+  SSkrylov:
+    name: Sergey Krylov
+    password: $2b$12$1dpzm9pKkwIVAbpzPRUW2OOTTKwPqJb2kUYH/jtY.xlNL3KEwPgM.
