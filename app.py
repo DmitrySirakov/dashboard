@@ -51,15 +51,22 @@ def to_excel(df):
 def get_data_from_cloud(n_list=0):
     scope = ['https://spreadsheets.google.com/feeds']
 
-    path_bot = Path(__file__).parent / "dppcommands-7a27921d2259.json"
-
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(path_bot,
-                                                                    scope)
+    dict_cred = {
+    "type": st.secrets['type'],
+    "project_id": st.secrets['project_id'],
+    "private_key_id": st.secrets['private_key_id'],
+    "private_key": st.secrets['private_key'],
+    "client_email": st.secrets['client_email'],
+    "client_id": st.secrets['client_id'],
+    "auth_uri": st.secrets['auth_uri'],
+    "token_uri": st.secrets['token_uri'],
+    "auth_provider_x509_cert_url": st.secrets['auth_provider_x509_cert_url'],
+    "client_x509_cert_url": st.secrets['client_x509_cert_url']}
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(dict_cred, scope)
         
     docid = '1LH36K5NBT3S2LpMDzBDe0H2yLpqENMPRIDI7n3jiUNs'
-
+    print(credentials)
     client = gspread.authorize(credentials)
-
     spreadsheet = client.open_by_key(docid)
 
     for i, worksheet in enumerate(spreadsheet.worksheets()):
@@ -105,7 +112,6 @@ file_path = Path(__file__).parent / "config.yaml"
 
 with file_path.open('rb') as file:
     credentials = yaml.load(file, Loader=SafeLoader)
-
 authenticator = stauth.Authenticate(credentials,'IT-center_dashboard', 'abcdef', cookie_expiry_days=30)
 
 name, authentication_status, username = authenticator.login('Login', 'main')
