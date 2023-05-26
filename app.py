@@ -207,7 +207,7 @@ if authentication_status:
                 yaxis = (dict(showgrid=False))
             )
             
-    people_by_programms = df[['Слушатель','Наименование курса', 'Этап ассесмента', 'Статус']]\
+    people_by_programms = df_selection[['Слушатель','Наименование курса', 'Этап ассесмента', 'Статус']]\
             .query('`Этап ассесмента` == @assessment & Статус == @final_assessment').drop(columns=['Этап ассесмента', 'Статус']).drop_duplicates(subset=['Слушатель'])\
             .groupby('Наименование курса').agg({'Наименование курса':'count'})
 
