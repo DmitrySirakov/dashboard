@@ -164,6 +164,7 @@ if authentication_status:
     df_selection = df[['Слушатель', 'Институт', 'Наименование курса','Этап ассесмента', 'Статус', 'Уровень обучения', 'Курс', 'Академическая группа', 'ДПП группа', 'Телефон', 'Кол-во академических задолженностей', 'Внутренний прокторинг']]\
                 .query('Институт == @institute & Курс == @course & `Этап ассесмента` == @assessment & `Наименование курса` == @programms & `Уровень обучения` == @level & Статус == @final_assessment & `Внутренний прокторинг`==@proctor')\
                 .drop_duplicates().reset_index().drop(columns=['index']) # & Наименование курса == @programms & Курс == @course
+    df_selection.index = df_selection.index + 1
         #----------------     Header     ----------------#
     st.title(":bar_chart: Цифровая кафедра & IT-Center")
     st.text('by Shade')
