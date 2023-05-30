@@ -65,7 +65,6 @@ def get_data_from_cloud(n_list=0):
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(dict_cred, scope)
         
     docid = '1b1jmUTzjnt7aLLSfAftH4Z5Ss_AvkUrwdUFbaaUreuc'
-    print(credentials)
     client = gspread.authorize(credentials)
     spreadsheet = client.open_by_key(docid)
 
@@ -106,14 +105,15 @@ def get_data_from_cloud(n_list=0):
     test_ass = ['Т_ДСК', 'Т_ДЗЗ', 'Т_СКТ']
     df = df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
 
-    list_of_fio = df.query('`Этап ассесмента` == 3')['ФИО'].unique()
+    list_of_fio = df.query('`Этап ассесмента` == 3')['Слушатель'].unique()
     for i in list_of_fio:
-        if 'Завершено' in df.query('`Этап ассесмента` == 3 & ФИО == @i')['Статус'].unique():
-            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Завершено' 
-        elif 'Старт' in df.query('`Этап ассесмента` == 3 & ФИО == @i')['Статус'].unique():
-            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Старт' 
+        if 'Завершено' in df.query('`Этап ассесмента` == 3 & Слушатель == @i')['Статус'].unique():
+            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Завершено' 
+        elif 'Старт' in df.query('`Этап ассесмента` == 3 & Слушатель == @i')['Статус'].unique():
+            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Старт' 
         else:
-            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Зарегистрирован' 
+            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Зарегистрирован' 
+
     return df
 
 names = ['Dmitry Sirakov', 'Maria Bulakina', 'Sergey Krylov']
