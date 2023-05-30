@@ -104,7 +104,17 @@ def get_data_from_cloud(n_list=0):
     df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
     df['Институт'] = df['Институт'].astype(str)
     test_ass = ['Т_ДСК', 'Т_ДЗЗ', 'Т_СКТ']
-    return df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
+    df = df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
+
+    list_of_fio = df.query('`Этап ассесмента` == 3')['ФИО'].unique()
+    for i in list_of_fio:
+        if 'Завершено' in df.query('`Этап ассесмента` == 3 & ФИО == @i')['Статус'].unique():
+            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Завершено' 
+        elif 'Старт' in df.query('`Этап ассесмента` == 3 & ФИО == @i')['Статус'].unique():
+            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Старт' 
+        else:
+            df.loc[(df['Этап ассесмента'] == 3) & (df['ФИО'] == i), 'Статус'] = 'Зарегистрирован' 
+    return df
 
 names = ['Dmitry Sirakov', 'Maria Bulakina', 'Sergey Krylov']
 usernames = ['DSSirakov', 'MBBulakina', 'SSkrylov'] 
