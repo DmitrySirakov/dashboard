@@ -248,6 +248,8 @@ if authentication_status == None:
     st.warning('Please enter your username and password')
 if authentication_status:
     df = get_data_from_cloud()
+    print(df['Наименование компетенции'].nunique())
+    print(df['Наименование компетенции'].unique())
     #----------------     Sidebar     ----------------#
     st.sidebar.title('Welcome to IT-Dashboard')
     st.sidebar.header('Фильтры:')
