@@ -352,7 +352,7 @@ if authentication_status:
 
     st.markdown('##')
             #----------------     PolarBar     ----------------#
-    st.subheader("Прогресс студентов по компетенциям(Пока иннополис не починит данные - она будет кривой)")
+    st.subheader("Прогресс студентов по компетенциям")
     st.plotly_chart(fig)
             #----------------     Navigation DataFrame     ----------------#
     text_input = st.text_input(
