@@ -1,10 +1,13 @@
 usernames:
   DSSirakov:
-    name: Dmitry Sirakov
-    password: $2b$12$UvA7c221bWNVfCbm5AJP..UWfESCkkGaEtgxS73htoxSWIjFSrW8e
+    name: "\u0421\u0438\u0440\u0430\u043A\u043E\u0432"
+    password: $2b$12$2bV5WyO0BYO92y5OBHEs.OzxU2bRFJiRvtwu/iuJBzINpWiy2WuQC
   MBBulakina:
-    name: Maria Bulakina
-    password: $2b$12$9SbywBykv2hXXw/KN/iAAO2dFut/W0KwfyS5WMGdTqXObVYSNG5Ru
-  SSkrylov:
-    name: Sergey Krylov
-    password: $2b$12$1dpzm9pKkwIVAbpzPRUW2OOTTKwPqJb2kUYH/jtY.xlNL3KEwPgM.
+    name: "\u0411\u0443\u043B\u0430\u043A\u0438\u043D\u0430"
+    password: $2b$12$Zv.nzuOW2CkhT3N85XCjSerAItCgoivJnjN7OzWITYS35S9zs4PSe
+  NNFilimonov:
+    name: "\u0424\u0438\u043B\u0438\u043C\u043E\u043D\u043E\u0432"
+    password: $2b$12$I5eItnRdWxUHdrKHbM2zOuBz1JmKERHU3vrUlV0eiL4x9Z...4hK2
+  SSKrylov:
+    name: "\u041A\u0440\u044B\u043B\u043E\u0432"
+    password: $2b$12$PATUWzkfQ6nRktYKuVvue.QJvG4gSLGp2MnAq00zdDzTG5dVgDYZ.
