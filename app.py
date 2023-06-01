@@ -115,7 +115,7 @@ def get_data_from_cloud(n_list=0):
         ['ЯП', 'Алгоритмы', 'IDE', 'Математика', 'ИИ', 'Сбор данных', 'ПО', 'BigData', '3D', 'CAD/CAM', 'СУБД', 'практика ИИ', 'ML', 'ИИ'])
     
    
-   # df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
+    df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
     df['Институт'] = df['Институт'].astype(str)
     test_ass = ['Т_ДСК', 'Т_ДЗЗ', 'Т_СКТ']
     df = df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
