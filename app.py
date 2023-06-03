@@ -51,21 +51,9 @@ def to_excel(df):
 @st.cache_data
 def get_data_from_cloud(n_list=0):
     scope = ['https://spreadsheets.google.com/feeds']
-
-    dict_cred = {
-    "type": st.secrets['type'],
-    "project_id": st.secrets['project_id'],
-    "private_key_id": st.secrets['private_key_id'],
-    "private_key": st.secrets['private_key'],
-    "client_email": st.secrets['client_email'],
-    "client_id": st.secrets['client_id'],
-    "auth_uri": st.secrets['auth_uri'],
-    "token_uri": st.secrets['token_uri'],
-    "auth_provider_x509_cert_url": st.secrets['auth_provider_x509_cert_url'],
-    "client_x509_cert_url": st.secrets['client_x509_cert_url']}
-    credentials = ServiceAccountCredentials.from_json_keyfile_dict(dict_cred, scope)
-        
-    docid = '1XIWBcELr97uznjM3wrj3mkV5CzHHsI3swtg5WrUfK1I'
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(PATH_BOT_GOOGLE_SHEETS,
+                                                                 scope)
+    docid = '1PYEeenlFUNuR9kFY2E_r9HroXAkDeippGDStY0bzWfY'
     client = gspread.authorize(credentials)
     spreadsheet = client.open_by_key(docid)
 
@@ -74,61 +62,9 @@ def get_data_from_cloud(n_list=0):
             expected_headers = worksheet.row_values(1)
             df = pd.DataFrame(worksheet.get_all_records(expected_headers=expected_headers))
             break
-        
-    df['Курс'] = df['Курс'].astype('str')
-    df = df.replace(['Цифровое моделирование и суперкомпьютерные технологии',
-        'Методы искусственного интеллекта и предиктивная аналитика в проектах дефектоскопии',
-        'Методы искусственного интеллекта в задачах обработки результатов дистанционного зондирования Земли',
-        'Прикладные системы инженерных расчетов',
-        'Тестовый прокторинг: Цифровое моделирование и суперкомпьютерные технологии',
-        'Интеллектуальные технические системы',
-        'Прикладные задачи и фреймворки машинного обучения и анализа больших данных',
-        'Тестовый прокторинг: Методы искусственного интеллекта и предиктивная аналитика в проектах дефектоскопии',
-        'Тестовый прокторинг: Методы искусственного интеллекта в задачах обработки результатов дистанционного зондирования Земли'],
-        ['СКТ', 'ДСК', 'ДЗЗ', 'ПСИР', 'Т_СКТ', 'ИТС', 'ML', 'Т_ДСК', 'Т_ДЗЗ'])
-    
-    alphabet_competetions = ['Применяет языки программирования для решения профессиональных задач',
-        'Применяет принципы и основы алгоритмизации',
-        'Применяет интегрированные среды разработки (IDE)',
-        'Применяет математический аппарат для решения задач по оценке и разработки моделей',
-        'Применяет искусственный интеллект и машинное обучение',
-        'Осуществляет сбор и подготовку данных для обучения моделей искусственного интеллекта',
-        'Разрабатывает программное обеспечение',
-        'Использует большие данные', 'Использует 3D-моделирование',
-        'Использует специальные технические программы CAD/CAM проектирования',
-        'Применяет СУБД', 'Решает задачи искусственного интеллекта (ИИ)',
-        'Разрабатывает и применяет методы машинного обучения (МО) для решения задач',
-        'Применяет Искусственный интеллект и машинное обучение']
-    string = ''
-    for i in alphabet_competetions:
-        string += i
-
-    alphabet = ''.join(OrderedDict.fromkeys(string.replace(' ', '')).keys())
-    for i in df['Наименование компетенции'].unique():
-        if 'ээ' in i:
-            comp = i.replace('ээ', '$')
-            for j in alphabet:
-                 if comp.replace('$', j) in alphabet_competetions:
-                      df = df.replace([i], [comp.replace('$', j)])
-
-    df = df.replace(alphabet_competetions,
-        ['ЯП', 'Алгоритмы', 'IDE', 'Математика', 'ИИ', 'Сбор данных', 'ПО', 'BigData', '3D', 'CAD/CAM', 'СУБД', 'практика ИИ', 'ML', 'ИИ'])
-    
-   
     df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
-    df['Институт'] = df['Институт'].astype(str)
     test_ass = ['Т_ДСК', 'Т_ДЗЗ', 'Т_СКТ']
     df = df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
-
-    list_of_fio = df.query('`Этап ассесмента` == 3')['Слушатель'].unique()
-    for i in list_of_fio:
-        if 'Завершено' in df.query('`Этап ассесмента` == 3 & Слушатель == @i')['Статус'].unique():
-            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Завершено' 
-        elif 'Старт' in df.query('`Этап ассесмента` == 3 & Слушатель == @i')['Статус'].unique():
-            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Старт' 
-        else:
-            df.loc[(df['Этап ассесмента'] == 3) & (df['Слушатель'] == i), 'Статус'] = 'Зарегистрирован' 
-
     return df
 
 names = ['Dmitry Sirakov', 'Maria Bulakina', 'Sergey Krylov']
