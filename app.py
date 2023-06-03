@@ -74,9 +74,9 @@ def get_data_from_cloud(n_list=0):
             expected_headers = worksheet.row_values(1)
             df = pd.DataFrame(worksheet.get_all_records(expected_headers=expected_headers))
             break
-        
-    df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
 
+    df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
+    df['Институт'] = df['Институт'].astype(str)
     return df
 
 names = ['Dmitry Sirakov', 'Maria Bulakina', 'Sergey Krylov']
