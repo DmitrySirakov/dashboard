@@ -51,9 +51,21 @@ def to_excel(df):
 @st.cache_data
 def get_data_from_cloud(n_list=0):
     scope = ['https://spreadsheets.google.com/feeds']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(PATH_BOT_GOOGLE_SHEETS,
-                                                                 scope)
-    docid = '1PYEeenlFUNuR9kFY2E_r9HroXAkDeippGDStY0bzWfY'
+
+    dict_cred = {
+    "type": st.secrets['type'],
+    "project_id": st.secrets['project_id'],
+    "private_key_id": st.secrets['private_key_id'],
+    "private_key": st.secrets['private_key'],
+    "client_email": st.secrets['client_email'],
+    "client_id": st.secrets['client_id'],
+    "auth_uri": st.secrets['auth_uri'],
+    "token_uri": st.secrets['token_uri'],
+    "auth_provider_x509_cert_url": st.secrets['auth_provider_x509_cert_url'],
+    "client_x509_cert_url": st.secrets['client_x509_cert_url']}
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(dict_cred, scope)
+        
+    docid = '1XIWBcELr97uznjM3wrj3mkV5CzHHsI3swtg5WrUfK1I'
     client = gspread.authorize(credentials)
     spreadsheet = client.open_by_key(docid)
 
@@ -62,9 +74,9 @@ def get_data_from_cloud(n_list=0):
             expected_headers = worksheet.row_values(1)
             df = pd.DataFrame(worksheet.get_all_records(expected_headers=expected_headers))
             break
+        
     df['Результат'] = df['Результат'].apply(lambda x: str(x)[:4]).replace('-', 0).astype(int)/10**4
-    test_ass = ['Т_ДСК', 'Т_ДЗЗ', 'Т_СКТ']
-    df = df.query("`Наименование курса` != @test_ass[0] & `Наименование курса` != @test_ass[1] & `Наименование курса` != @test_ass[2]")
+
     return df
 
 names = ['Dmitry Sirakov', 'Maria Bulakina', 'Sergey Krylov']
