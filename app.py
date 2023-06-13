@@ -65,7 +65,7 @@ def get_data_from_cloud(n_list=0):
     "client_x509_cert_url": st.secrets['client_x509_cert_url']}
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(dict_cred, scope)
         
-    docid = '1PYEeenlFUNuR9kFY2E_r9HroXAkDeippGDStY0bzWfY'
+    docid = '1NQrxXH0BoT4QsMsTzKqbJEmz65f7DopPtbyAZYJp4j0'
     client = gspread.authorize(credentials)
     spreadsheet = client.open_by_key(docid)
 
